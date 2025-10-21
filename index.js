@@ -16,6 +16,27 @@ app.listen(PORT, () => {
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '3007', // sesuaikan dengan password MySQL kalian
-    database: 'biodata'
+    password: 'afi21092004', // sesuaikan dengan password MySQL kalian
+    database: 'biodata',
+    port: 3007
+});
+
+db.connect((err) =>{
+    if (err) {
+        console.error('Error connection to mysql: ' + err.stack);
+        return;
+    }
+    console.log(' Connection successfully')
+});
+
+app.get('api/mahasiswa', (req, res) => {
+    db.query('SELECT * FROM mahasiswa', (err, results) => {
+        if (err) {
+            console.error('error executing query: ' + err.stack);
+            res.status(500).send('error');
+            return;
+        }
+        res.json(results);
+    });
+});
 
